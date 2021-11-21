@@ -79,6 +79,7 @@ def get_address():
         # return ApiResponse(success=True, code=result.code)
         return result    
 
+
 @app.route('/pushaddress', methods=["POST"])
 def push_address():
     log.info('Starting Process....')
@@ -148,5 +149,5 @@ def del_address():
         #     return ApiResponse(success=False, message=result.message), status.HTTP_400_BAD_REQUEST
         # log.info('End Process')
         # return ApiResponse(success=True, code=result.code)
-        
+
         return result 
