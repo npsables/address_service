@@ -44,6 +44,7 @@ def create_default_wallet():
         # log.info('End Process')
         # return ApiResponse(success=True, code=result.code)
         return result    
+        
 
 @app.route('/getaddress', methods=["POST"])
 def get_address():

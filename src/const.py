@@ -1,5 +1,4 @@
 MSG_PROCESSING = 'Processing'
-MSG_REG_SUCCESS = 'Create file Success'
 MSG_SERVICE_UNAVAILABLE = 'Service Unavailable'
 
 CODE_DONE = 1000
