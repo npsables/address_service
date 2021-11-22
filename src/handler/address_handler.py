@@ -1,9 +1,15 @@
 from re import purge
 from flask import jsonify
-import src.main
-
+# from src.config_api import DetectResult
 
 def get_chain_address(address, chain, db):
+    if address is None or chain is None:
+        return jsonify(
+        statusCode=400,
+        message='Bad request',
+        errors='No master address and chain ID'
+    ), 400
+
     a = list(db.address.find(
         {"_id": address}, {"_id": 0, "address": 1}))
 
@@ -11,11 +17,18 @@ def get_chain_address(address, chain, db):
     return jsonify(
         statusCode=201,
         message='Succeed',
-        coin=a[0]["address"][chain]
+        balance=a[0]["address"][chain]
     ), 200
 
 
 def push_chain_address(address, chain, purpose, child_address, db):
+    if address is None or chain is None or purpose is None or child_address is None:
+        return jsonify(
+        statusCode=400,
+        message='Bad request',
+        errors='Missing values'
+    ), 400
+
     db.address.update(
         {"_id": address},
         {"$set": {
@@ -54,6 +67,13 @@ def create_defautl(request, db):
 # }
 
 def delele_address(address, chain, purpose, child_address, db):
+    if address is None or chain is None or purpose is None or child_address is None:
+        return jsonify(
+        statusCode=400,
+        message='Bad request',
+        errors='Missing values'
+    ), 400
+
     db.address.update({ "_id": address }, { "$unset" : { f"address.{chain}.{purpose}" : 1} })
     return jsonify(
         statusCode=201,
