@@ -10,14 +10,32 @@ def get_chain_address(address, chain, db):
         errors='No master address and chain ID'
     ), 400
 
-    a = list(db.address.find(
-        {"_id": address}, {"_id": 0, "address": 1}))
+    try: 
+        a = list(db.address.find(
+            {"_id": address}, {"_id": 0, "address": 1}))
+        list_address=a[0]["address"][chain]
 
+    except IndexError:
+        return jsonify(
+            statusCode=205,
+            status='Fail',
+            list_address=[],
+            message='No data of ' + address,
+        ), 205
+
+    except:
+        return jsonify(
+            statusCode=205,
+            status='Fail',
+            list_address=[],
+            message='No data of ' + address,
+        ), 205
     # print("SEULTASERAWRAW", a)
     return jsonify(
         statusCode=201,
         message='Succeed',
-        balance=a[0]["address"][chain]
+        status='Succeed',
+        list_address=list_address
     ), 200
 
 
