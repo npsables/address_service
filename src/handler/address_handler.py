@@ -18,15 +18,24 @@ def get_chain_address(address, chain, db):
 
     except IndexError:
         return jsonify(
-            statusCode=210,
+            statusCode=1004,
             status='Fail',
             list_address=[],
             message='No data of ' + address,
-        ), 210
+        ), 1004
+
+    except Exception as e:
+        return jsonify(
+            statusCode=1000,
+            status='Unknown',
+            list_address=[],
+            message=e,
+        ), 1000
+
 
     # print("SEULTASERAWRAW", a)
     return jsonify(
-        statusCode=201,
+        statusCode=200,
         message='Succeed',
         status='Succeed',
         list_address=list_address
@@ -40,22 +49,36 @@ def push_chain_address(address, chain, purpose, child_address, db):
         message='Missing values',
     ), 400
 
-    db.address.update(
-        {"_id": address},
-        {"$set": {
-            f"address.{chain}.{purpose}": child_address
-        }}
-    )
+    try:
+        db.address.update(
+            {"_id": address},
+            {"$set": {
+                f"address.{chain}.{purpose}": child_address
+            }}
+        )
+    except Exception as e:
+        return jsonify(
+            statusCode=1003,
+            status='Cant not update',
+            message=e,
+        ), 1003
 
     return jsonify(
-        statusCode=201,
+        statusCode=200,
         message='Succeed',
     ), 200
 
 
 def create_defautl(request, db):
     print(request)
-    db.address.insert(request)
+    try: 
+        db.address.insert(request)
+    except Exception as e:
+        return jsonify(
+            statusCode=1003,
+            status='Cant not update',
+            message=e,
+        ), 1003
 
     return jsonify(
         statusCode=201,
@@ -70,8 +93,15 @@ def delele_address(address, chain, purpose, child_address, db):
         message='Bad request',
         errors='Missing values'
     ), 400
+    try: 
+        db.address.update({ "_id": address }, { "$unset" : { f"address.{chain}.{purpose}" : 1} })
+    except Exception as e:
+        return jsonify(
+            statusCode=1003,
+            status='Cant not update',
+            message=e,
+        ), 1003
 
-    db.address.update({ "_id": address }, { "$unset" : { f"address.{chain}.{purpose}" : 1} })
     return jsonify(
         statusCode=201,
         message='Succeed',
