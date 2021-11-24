@@ -7,6 +7,7 @@ def get_chain_address(address, chain, db):
         return jsonify(
         statusCode=400,
         message='Bad request',
+        list_address=[],
         errors='No master address and chain ID'
     ), 400
 
@@ -17,19 +18,12 @@ def get_chain_address(address, chain, db):
 
     except IndexError:
         return jsonify(
-            statusCode=205,
+            statusCode=210,
             status='Fail',
             list_address=[],
             message='No data of ' + address,
-        ), 205
+        ), 210
 
-    except:
-        return jsonify(
-            statusCode=205,
-            status='Fail',
-            list_address=[],
-            message='No data of ' + address,
-        ), 205
     # print("SEULTASERAWRAW", a)
     return jsonify(
         statusCode=201,
@@ -43,8 +37,7 @@ def push_chain_address(address, chain, purpose, child_address, db):
     if address is None or chain is None or purpose is None or child_address is None:
         return jsonify(
         statusCode=400,
-        message='Bad request',
-        errors='Missing values'
+        message='Missing values',
     ), 400
 
     db.address.update(
@@ -69,20 +62,6 @@ def create_defautl(request, db):
         message='Succeed',
     ), 200
 
-#     {
-#     "_id": "test_default",
-#     "address": {
-#         "1": {
-#             "default": "wallet1"
-#         },
-#         "60": {
-#             "default": "wallet2"
-#         },
-#         "501": {
-#             "default": "wallet3"
-#         }
-#     }
-# }
 
 def delele_address(address, chain, purpose, child_address, db):
     if address is None or chain is None or purpose is None or child_address is None:
