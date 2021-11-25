@@ -19,19 +19,27 @@ def get_chain_address(address, chain, db):
 
     except IndexError:
         return jsonify(
-            statusCode=1004,
+            statusCode=400,
             status='Fail',
             list_address=[],
-            message='No data of ' + address,
-        ), 1004
+            message='No data of ' + address + ", try another chainID or address",
+        ), 400
+
+    except KeyError:
+        return jsonify(
+            statusCode=400,
+            status='Fail',
+            list_address=[],
+            message='Not supported, try another chainID or address',
+        ), 400
 
     except Exception as e:
         return jsonify(
-            statusCode=1000,
+            statusCode=400,
             status='Unknown',
             list_address=[],
             message=e,
-        ), 1000
+        ), 400
 
 
     # print("SEULTASERAWRAW", a)
@@ -78,7 +86,7 @@ def create_defautl(request, db):
     _id = request['address']
     checker =list(db.address.find({"_id": _id}))
     # print("CHECKER ", checker)
-    
+
     if checker != []:
         return jsonify(
             statusCode=1005,
