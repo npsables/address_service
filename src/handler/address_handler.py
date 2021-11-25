@@ -1,5 +1,6 @@
 from re import purge
 from flask import jsonify
+from src.util import checker
 # from src.config_api import DetectResult
 
 def get_chain_address(address, chain, db):
@@ -71,7 +72,21 @@ def push_chain_address(address, chain, purpose, child_address, db):
 
 def create_defautl(request, db):
     print(request)
-    try: 
+    # parse, ok = checker.parse_default(request)
+    # if not ok:
+
+    _id = request['address']
+    checker =list(db.address.find({"_id": _id}))
+    # print("CHECKER ", checker)
+    
+    if checker != []:
+        return jsonify(
+            statusCode=1005,
+            status='Refused',
+            message="Master address already exist",
+        ), 500
+
+    try:
         db.address.insert(request)
     except Exception as e:
         return jsonify(
