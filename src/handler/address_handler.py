@@ -104,7 +104,7 @@ def create_defautl(request, db):
         ), 1003
 
     return jsonify(
-        statusCode=201,
+        statusCode=200,
         message='Succeed',
     ), 200
 
@@ -126,7 +126,7 @@ def delele_address(address, chain, purpose, child_address, db):
         ), 1003
 
     return jsonify(
-        statusCode=201,
+        statusCode=200,
         message='Succeed',
     ), 200
 
