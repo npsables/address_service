@@ -4,12 +4,14 @@ import sys
 # sys.path.append('..')
 from flask import request, jsonify, Flask, render_template, session
 from flask_api import status
+from flask_cors import CORS
 
 from src.config_api import ApiResponse, DetectRequest
 # # import src.const as const
 from src import app, db
 from src.handler.address_handler import get_chain_address, push_chain_address, create_defautl, delele_address
 
+CORS(app)
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
@@ -18,6 +20,8 @@ formatter = logging.Formatter(
     '%(asctime)s - %(filename)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 log.addHandler(handler)
+
+
 
 
 @app.route('/')
