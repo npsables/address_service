@@ -3,6 +3,6 @@ Flask-PyMongo==2.2.0
 requests==2.20.1
 flask_restful   
 Flask-API
-scikit-learn==0.19.2
 dataclasses-json
 pymongo
+flask_cors
