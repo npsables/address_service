@@ -67,10 +67,10 @@ def push_chain_address(address, chain, purpose, child_address, db):
         )
     except Exception as e:
         return jsonify(
-            statusCode=1003,
+            statusCode=500,
             status='Cant not update',
             message=e,
-        ), 1003
+        ), 500
 
     return jsonify(
         statusCode=200,
@@ -83,25 +83,25 @@ def create_defautl(request, db):
     # parse, ok = checker.parse_default(request)
     # if not ok:
 
-    _id = request['address']
+    _id = request['_id']
     checker =list(db.address.find({"_id": _id}))
-    # print("CHECKER ", checker)
+    print("CHECKER ", checker)
 
     if checker != []:
         return jsonify(
-            statusCode=1005,
+            statusCode=400,
             status='Refused',
             message="Master address already exist",
-        ), 500
+        ), 400
 
     try:
         db.address.insert(request)
     except Exception as e:
         return jsonify(
-            statusCode=1003,
+            statusCode=500,
             status='Cant not update',
             message=e,
-        ), 1003
+        ), 500
 
     return jsonify(
         statusCode=200,
@@ -120,10 +120,10 @@ def delele_address(address, chain, purpose, db):
         db.address.update({ "_id": address }, { "$unset" : { f"address.{chain}.{purpose}" : 1} })
     except Exception as e:
         return jsonify(
-            statusCode=1003,
+            statusCode=500,
             status='Cant not update',
             message=e,
-        ), 1003
+        ), 500
 
     return jsonify(
         statusCode=200,
