@@ -109,8 +109,8 @@ def create_defautl(request, db):
     ), 200
 
 
-def delele_address(address, chain, purpose, child_address, db):
-    if address is None or chain is None or purpose is None or child_address is None:
+def delele_address(address, chain, purpose, db):
+    if address is None or chain is None or purpose is None:
         return jsonify(
         statusCode=400,
         message='Bad request',

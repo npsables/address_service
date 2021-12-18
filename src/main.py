@@ -112,7 +112,6 @@ def del_address():
 
         address = json_reg['address']
         chain = json_reg['chain']
-        child_address = json_reg['child_address']
         purpose = json_reg['purpose']
 
         log.debug("Address: {}".format(address))
@@ -122,6 +121,6 @@ def del_address():
         ok, msg = req.validate()
         if not ok:
             return ApiResponse(message=msg), status.HTTP_400_BAD_REQUEST
-        result = delele_address(address, chain, purpose, child_address, db)
+        result = delele_address(address, chain, purpose, db)
 
         return result
